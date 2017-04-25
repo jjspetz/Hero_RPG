@@ -6,13 +6,17 @@ In this simple RPG game, the hero fights evil monsters. He has the options to:
 2. do nothing - in which case the hero will be attacked anyway
 3. flee
 """
+
+from random import randint, random
+
 class Character():
     def __init__(self, health=10, power=5):
         self.health = health
         self.power = power
     def attack(self,victim):
-        victim.health -= self.power
-        print("{} does {} damage to the {}.".format(self.name.capitalize(), self.power, victim.name))
+        damage = self.power*random()
+        victim.health -= damage
+        print("{} does {} damage to the {}.".format(self.name.capitalize(), "{0:.2f}".format(damage), victim.name))
         if not victim.alive():
             print("{} is dead.".format(victim.name.capitalize()))
     def alive(self):
@@ -20,8 +24,6 @@ class Character():
             return True
         else:
             return False
-    def print_status(self):
-        print("The {} has {} health and {} power.".format(self.name, self.health, self.power))
 
 class Zombie(Character):
     def __init__(self, health = -500, power = 1, name="zombie"):
@@ -33,22 +35,22 @@ class Zombie(Character):
         print("The {} has {} power and is already dead... but still fighting?".format(self.name, self.power))
 
 class Hero(Character):
-    def __init__(self, health, power, name="hero"):
+    def __init__(self, health=randint(5,20), power=randint(2,10), name="hero"):
         self.name = name
         super().__init__(health, power)
     def print_status(self):
-        print("You have {} health and {} power.".format(self.health, self.power))
+        print("You have {} health and {} power.".format("{0:.2f}".format(self.health), self.power))
 
 class Goblin(Character):
-    def __init__(self, health, power, name="goblin"):
+    def __init__(self, health=randint(4,8), power=randint(1,5), name="goblin"):
         self.name = name
-        super().__init__(health=6, power=2)
+        super().__init__(health, power)
     def print_status(self):
-        print("The goblin has {} health and {} power.".format(self.health, self.power))
+        print("The goblin has {} health and {} power.".format("{0:.2f}".format(self.health), self.power))
 
 def main():
-    hero = Hero(10, 5, "JJ")
-    goblin = Goblin(6, 2)
+    hero = Hero(name = "JJ")
+    goblin = Goblin()
     zombie = Zombie()
 
     while goblin.alive() and hero.alive():

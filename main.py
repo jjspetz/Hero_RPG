@@ -24,7 +24,7 @@ class Character():
         print("The {} has {} health and {} power.".format(self.name, self.health, self.power))
 
 class Zombie(Character):
-    def __init__(self, health, power, name="zombie"):
+    def __init__(self, health = -500, power = 1, name="zombie"):
         self.name = name
         super().__init__(health, power)
     def alive(self):
@@ -49,7 +49,7 @@ class Goblin(Character):
 def main():
     hero = Hero(10, 5, "JJ")
     goblin = Goblin(6, 2)
-    zombie = Zombie(1, 1)
+    zombie = Zombie()
 
     while goblin.alive() and hero.alive():
         hero.print_status()

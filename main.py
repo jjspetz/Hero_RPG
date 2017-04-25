@@ -64,19 +64,25 @@ def main():
         print("> ", end=' ')
         inpt = input()
         if inpt == "1":
-            # Hero attacks goblin
-            hero.attack(goblin)
+            priority = randint(0,1)
+            if priority == 0:
+                goblin.attack(hero)
+                if hero.alive():
+                    hero.attack(goblin)
+            else:
+                hero.attack(goblin)
+                if goblin.alive():
+                    goblin.attack(hero)
         elif inpt == "2":
+            if goblin.alive():
+            # Goblin attacks hero
+                goblin.attack(hero)
             pass
         elif inpt == "3":
             print("Goodbye.")
             break
         else:
             print("Invalid inpt {}".format(inpt))
-
-        if goblin.alive():
-            # Goblin attacks hero
-            goblin.attack(hero)
-
+    
 if __name__ == "__main__":
   main()

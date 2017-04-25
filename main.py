@@ -85,8 +85,8 @@ def main():
                 goblin.attack(hero)
             pass
         elif inpt == "3":
-            print("Goodbye.")
-            break
+            print("You run like a coward.")
+            enemypicker()
         else:
             print("Invalid inpt {}".format(inpt))
 

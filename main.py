@@ -99,7 +99,7 @@ def main():
     hero = Hero(name = "JJ")
     enemy = enemypicker()
 
-    while hero.alive():
+    while enemy.alive hero.alive():
         hero.print_status()
         enemy.print_status()
         print()

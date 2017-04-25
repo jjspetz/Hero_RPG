@@ -7,8 +7,8 @@ In this simple RPG game, the hero fights evil monsters. He has the options to:
 3. flee
 """
 class Character():
-    def __init__(self, health, power):
-        self.health = health
+    def __init__(self, health=10, power=5):
+        self.health = heath
         self.power = power
     def attack(self,victim):
         victim.health -= self.power
@@ -42,7 +42,7 @@ class Hero(Character):
 class Goblin(Character):
     def __init__(self, health, power, name="goblin"):
         self.name = name
-        super().__init__(health, power)
+        super().__init__(health=6, power=2)
     def print_status(self):
         print("The goblin has {} health and {} power.".format(self.health, self.power))
 

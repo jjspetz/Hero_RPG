@@ -9,6 +9,8 @@ In this simple RPG game, the hero fights evil monsters. He has the options to:
 
 from random import randint, random
 
+YES = ('y', 'Y', 'yes', 'YES', 'Yes', 'OK', 'Okay', 'yeah', 'Yeah')
+
 class Character():
     def __init__(self, health, power, name):
         self.health = health
@@ -22,7 +24,7 @@ class Character():
         victim.health -= damage
         print("{} does {} damage to the {}.".format(self.name, "{0:.2f}".format(damage), victim.name))
         if not victim.alive():
-            print("{} is dead.".format(victim.name.capitalize()))
+            print("{} is dead.".format(victim.name))
     def alive(self):
         if self.health > 0:
             return True
@@ -49,6 +51,13 @@ class Hero(Character):
         print("You have {} health, {} power, and an initiative of {}."
         .format("{0:.2f}".format(self.health), self.power, int(self.initiative * 100)))
 
+    def rest(self):
+        if self.health < self.maxhealth - 2:
+            self.health = self.health + 2
+        else:
+            self.health = self.maxhealth
+
+        print("Your health is {}".format(self.health))
 
 class Goblin(Character):
     def __init__(self, health=randint(4,8), power=randint(1,5), name="goblin"):
@@ -56,20 +65,35 @@ class Goblin(Character):
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
 
+class Orc(Character):
+    def __init__(self, health=randint(15,30), power=randint(3,8), name="orc"):
+        super().__init__(health, power, name)
+    def print_status(self):
+        print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
+
+class Skeleton(Character):
+    def __init__(self, health = -100, power = randint(1,4), name="skeleton"):
+        super().__init__(health, power, name)
+    def alive(self):
+        return True
+    def print_status(self):
+        print("{} has {} power and is already dead... but still fighting?"
+        .format(self.name, self.power))
+
 def enemypicker():
     enemydict = {
-
+                1: Zombie,
+                2: Goblin,
+                3: Skeleton,
+                4: Orc
                 }
 
-    enemypick = int(input("You have come across a fork in the road. One way leads to a zombie(0), the other leads to a goblin(1). Pick where to go (0-1): "))
+    enemypick = int(input("The scouting report indicates danger lies ahead...\n \
+            Option 1: Charge the zombie. Option 2: Hurl yourself at the goblin.\n \
+            Option 3: Moonwalk to the skeleton. Option 4: Sneak up on the Orc.\n \
+            Pick where to go (1-4): "))
+
     return enemydict[enemypick]()
-
-def rest():
-    if hero.health < hero.maxhealth - 2:
-        hero.health = hero.health + 2
-    else:
-        hero.health = hero.maxhealth
-
 
 def main():
     hero = Hero(name = "JJ")
@@ -102,7 +126,11 @@ def main():
             pass
         elif inpt == "3":
             print("You run like a coward.")
-            enemypicker()
+            switch = input("Do you want to rest? (y or n) ")
+            if switch in YES:
+                hero.rest()
+
+            enemy = enemypicker()
         else:
             print("Invalid inpt {}".format(inpt))
 

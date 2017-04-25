@@ -42,11 +42,13 @@ class Hero(Character):
 
     def __init__(self, initiative=random(), health=randint(5,20), power=randint(2,10), name="hero"):
         self.initiative = initiative
+        self.maxhealth = health
         super().__init__(health, power, name)
 
     def print_status(self):
         print("You have {} health, {} power, and an initiative of {}."
         .format("{0:.2f}".format(self.health), self.power, int(self.initiative * 100)))
+
 
 class Goblin(Character):
     def __init__(self, health=randint(4,8), power=randint(1,5), name="goblin"):
@@ -56,19 +58,24 @@ class Goblin(Character):
 
 def enemypicker():
     enemydict = {
-                0: Zombie,
-                1: Goblin
+
                 }
-    
+
     enemypick = int(input("You have come across a fork in the road. One way leads to a zombie(0), the other leads to a goblin(1). Pick where to go (0-1): "))
     return enemydict[enemypick]()
-    
+
+def rest():
+    if hero.health < hero.maxhealth - 2:
+        hero.health = hero.health + 2
+    else:
+        hero.health = hero.maxhealth
+
 
 def main():
     hero = Hero(name = "JJ")
     enemy = enemypicker()
 
-    while enemy.alive() and hero.alive():
+    while hero.alive():
         hero.print_status()
         enemy.print_status()
         print()
@@ -98,6 +105,7 @@ def main():
             enemypicker()
         else:
             print("Invalid inpt {}".format(inpt))
+
 
 if __name__ == "__main__":
   main()

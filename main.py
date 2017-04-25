@@ -35,19 +35,24 @@ class Zombie(Character):
     def alive(self):
         return True
     def print_status(self):
-        print("The {} has {} power and is already dead... but still fighting?".format(self.name, self.power))
+        print("{} has {} power and is already dead... but still fighting?"
+        .format(self.name, self.power))
 
 class Hero(Character):
-    def __init__(self, health=randint(5,20), power=randint(2,10), name="hero"):
+
+    def __init__(self, initiative=random(), health=randint(5,20), power=randint(2,10), name="hero"):
+        self.initiative = initiative
         super().__init__(health, power, name)
+
     def print_status(self):
-        print("You have {} health and {} power.".format("{0:.2f}".format(self.health), self.power))
+        print("You have {} health, {} power, and an initiative of {}."
+        .format("{0:.2f}".format(self.health), self.power, int(self.initiative * 100)))
 
 class Goblin(Character):
     def __init__(self, health=randint(4,8), power=randint(1,5), name="goblin"):
         super().__init__(health, power, name)
     def print_status(self):
-        print("The goblin has {} health and {} power.".format("{0:.2f}".format(self.health), self.power))
+        print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
 
 def enemypicker():
     enemydict = {
@@ -74,8 +79,8 @@ def main():
         print("> ", end=' ')
         inpt = input()
         if inpt == "1":
-            priority = randint(0,1)
-            if priority == 0:
+            priority = random()+ hero.initiative
+            if priority < 0.8:
                 enemy.attack(hero)
                 if hero.alive():
                     hero.attack(enemy)
@@ -93,6 +98,6 @@ def main():
             break
         else:
             print("Invalid inpt {}".format(inpt))
-    
+
 if __name__ == "__main__":
   main()

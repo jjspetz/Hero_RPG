@@ -10,13 +10,17 @@ In this simple RPG game, the hero fights evil monsters. He has the options to:
 from random import randint, random
 
 class Character():
-    def __init__(self, health=10, power=5):
+    def __init__(self, health, power, name):
         self.health = health
         self.power = power
+        if name[0].isupper():
+            self.name = name
+        else:
+            self.name = name.capitalize()
     def attack(self,victim):
         damage = self.power*random()
         victim.health -= damage
-        print("{} does {} damage to the {}.".format(self.name.capitalize(), "{0:.2f}".format(damage), victim.name))
+        print("{} does {} damage to the {}.".format(self.name, "{0:.2f}".format(damage), victim.name))
         if not victim.alive():
             print("{} is dead.".format(victim.name.capitalize()))
     def alive(self):
@@ -27,8 +31,7 @@ class Character():
 
 class Zombie(Character):
     def __init__(self, health = -500, power = 1, name="zombie"):
-        self.name = name
-        super().__init__(health, power)
+        super().__init__(health, power, name)
     def alive(self):
         return True
     def print_status(self):
@@ -36,18 +39,18 @@ class Zombie(Character):
         .format(self.name, self.power))
 
 class Hero(Character):
+
     def __init__(self, initiative=random(), health=randint(5,20), power=randint(2,10), name="hero"):
-        self.name = name
         self.initiative = initiative
-        super().__init__(health, power)
+        super().__init__(health, power, name)
+
     def print_status(self):
         print("You have {} health, {} power, and an initiative of {}."
         .format("{0:.2f}".format(self.health), self.power, int(self.initiative * 100)))
 
 class Goblin(Character):
     def __init__(self, health=randint(4,8), power=randint(1,5), name="goblin"):
-        self.name = name
-        super().__init__(health, power)
+        super().__init__(health, power, name)
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
 

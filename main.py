@@ -17,6 +17,12 @@ class Hero():
             if victim.health <= 0:
                 print("The goblin is dead.")
 
+    def alive(self):
+        if self.health > 0:
+            return True
+        else:
+            return False
+
 class Goblin():
     def __init__(self, health, power):
         self.health = health
@@ -26,13 +32,19 @@ class Goblin():
             print("The goblin does {} damage to you.".format(self.power))
             if victim.health <= 0:
                 print("You are dead.")
+
+    def alive(self):
+        if self.health > 0:
+            return True
+        else:
+            return False
 def main():
     JJ = Hero(10, 5)
-    goblin1 = Goblin(6, 2)
+    goblin = Goblin(6, 2)
 
-    while goblin1.health > 0 and JJ.health > 0:
+    while goblin.alive() and JJ.alive():
         print("You have {} health and {} power.".format(JJ.health, JJ.power))
-        print("The goblin has {} health and {} power.".format(goblin1.health, goblin1.power))
+        print("The goblin has {} health and {} power.".format(goblin.health, goblin.power))
         print()
         print("What do you want to do?")
         print("1. fight goblin")
@@ -42,7 +54,7 @@ def main():
         inpt = input()
         if inpt == "1":
             # Hero attacks goblin
-            JJ.attack(goblin1)
+            JJ.attack(goblin)
         elif inpt == "2":
             pass
         elif inpt == "3":
@@ -51,9 +63,9 @@ def main():
         else:
             print("Invalid inpt {}".format(inpt))
 
-        if goblin1.health > 0:
+        if goblin.health > 0:
             # Goblin attacks hero
-            goblin1.attack(JJ)
+            goblin.attack(JJ)
 
 if __name__ == "__main__":
   main()

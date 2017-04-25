@@ -7,14 +7,15 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 3. flee
 """
 class Character():
-    def __init__(self, health, power):
+    def __init__(self, name, health, power):
+        self.name = name
         self.health = health
         self.power = power
     def attack(self,victim):
         victim.health -= self.power
-            print("You do {} damage to the {}.".format(self.power, victim.name))
-            if victim.health <= 0:
-                print("The {} is dead."format(victim.name))
+        print("{} does {} damage to the {}.".format(self.name, self.power, victim.name))
+        if not victim.alive():
+            print("The {} is dead.".format(victim.name))
     def alive(self):
         if self.health > 0:
             return True
@@ -22,6 +23,10 @@ class Character():
             return False
     def print_status(self):
         print("The {} has {} health and {} power.".format(self.name, self.health, self.power))
+
+class Zombie(Character):
+    def alive(self):
+        return True
 
 # class Hero():
 #     def __init__(self, health, power):
@@ -58,22 +63,23 @@ class Character():
 #         print("The goblin has {} health and {} power.".format(self.health, self.power))
 
 def main():
-    hero = Character(10, 5)
-    goblin = Character(6, 2)
+    hero = Character("JJ", 10, 5)
+    goblin = Character("goblin", 6, 2)
+    zombie = Zombie("zombie", 1, 1)
 
-    while goblin.alive() and JJ.alive():
-        JJ.print_status()
-        goblin.print_status()
+    while zombie.alive() and hero.alive():
+        hero.print_status()
+        zombie.print_status()
         print()
         print("What do you want to do?")
-        print("1. fight goblin")
+        print("1. fight zombie")
         print("2. do nothing")
         print("3. flee")
         print("> ", end=' ')
         inpt = input()
         if inpt == "1":
             # Hero attacks goblin
-            JJ.attack(goblin)
+            hero.attack(zombie)
         elif inpt == "2":
             pass
         elif inpt == "3":
@@ -82,9 +88,9 @@ def main():
         else:
             print("Invalid inpt {}".format(inpt))
 
-        if goblin.health > 0:
+        if zombie.alive():
             # Goblin attacks hero
-            goblin.attack(JJ)
+            zombie.attack(hero)
 
 if __name__ == "__main__":
   main()

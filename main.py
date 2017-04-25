@@ -8,7 +8,7 @@ In this simple RPG game, the hero fights evil monsters. He has the options to:
 """
 class Character():
     def __init__(self, health=10, power=5):
-        self.health = heath
+        self.health = health
         self.power = power
     def attack(self,victim):
         victim.health -= self.power

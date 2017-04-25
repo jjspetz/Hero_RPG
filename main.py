@@ -31,32 +31,19 @@ class Character():
         else:
             return False
 
-class Zombie(Character):
-    def __init__(self, health = -500, power = 1, name="zombie"):
-        super().__init__(health, power, name)
-    def alive(self):
-        return True
-    def print_status(self):
-        print("{} has {} power and is already dead... but still fighting?"
-        .format(self.name, self.power))
-
 class Hero(Character):
-
     def __init__(self, initiative=random(), health=randint(5,20), power=randint(2,10), name="hero"):
         self.initiative = initiative
         self.maxhealth = health
         super().__init__(health, power, name)
-
     def print_status(self):
         print("You have {} health, {} power, and an initiative of {}."
         .format("{0:.2f}".format(self.health), self.power, int(self.initiative * 100)))
-
     def rest(self):
         if self.health < self.maxhealth - 2:
             self.health = self.health + 2
         else:
             self.health = self.maxhealth
-
         print("Your health is {}".format(self.health))
 
 class Goblin(Character):
@@ -71,14 +58,21 @@ class Orc(Character):
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
 
+class Zombie(Character):
+    def __init__(self, health = -500, power = 1, name="zombie"):
+        super().__init__(health, power, name)
+    def alive(self):
+        return True
+    def print_status(self):
+        print("{} has {} power and is already dead... but still fighting?".format(self.name, self.power))
+
 class Skeleton(Character):
     def __init__(self, health = -100, power = randint(1,4), name="skeleton"):
         super().__init__(health, power, name)
     def alive(self):
         return True
     def print_status(self):
-        print("{} has {} power and is already dead... but still fighting?"
-        .format(self.name, self.power))
+        print("{} has {} power and is already dead... but still fighting?".format(self.name, self.power))
 
 def enemypicker():
     enemydict = {
@@ -89,16 +83,14 @@ def enemypicker():
                 }
 
     enemypick = int(input("The scouting report indicates danger lies ahead...\n \
-            Option 1: Charge the zombie. Option 2: Hurl yourself at the goblin.\n \
-            Option 3: Moonwalk to the skeleton. Option 4: Sneak up on the Orc.\n \
-            Pick where to go (1-4): "))
+    Option 1: Charge the zombie. Option 2: Hurl yourself at the goblin.\n \
+    Option 3: Moonwalk to the skeleton. Option 4: Sneak up on the Orc.\n \
+    Pick where to go (1-4): "))
 
     return enemydict[enemypick]()
 
-def main():
-    hero = Hero(name = "JJ")
+def attacksequence():
     enemy = enemypicker()
-
     while enemy.alive() and hero.alive():
         hero.print_status()
         enemy.print_status()
@@ -131,14 +123,22 @@ def main():
             pass    
         elif inpt == "4":
             print("You run like a coward.")
+            break
         else:
             print("Invalid inpt {}".format(inpt))
-    
-    switch = input("Do you want to rest? (y or n) ")
-    if switch in YES:
-         hero.rest()
 
-    enemy = enemypicker()
+def main():
+    while True:
+        attacksequence()
+        if not hero.alive():
+            print("RIP")
+            break
+        else:
+            switch = input("Do you want to rest? (y or n) ")
+            if switch in YES:
+                hero.rest()
+
+hero = Hero(name = input("Mighty hero, what's your name? "))
 
 if __name__ == "__main__":
   main()

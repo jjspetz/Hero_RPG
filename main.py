@@ -54,15 +54,34 @@ class Goblin(Character):
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
 
+class Orc(Character):
+    def __init__(self, health=randint(15,30), power=randint(3,8), name="orc"):
+        super().__init__(health, power, name)
+    def print_status(self):
+        print("{} has {} health and {} power.".format(self.name, "{0:.2f}".format(self.health), self.power))
+
+class Skeleton():
+    def __init__(self, health = -100, power = randint(1,4), name="zombie"):
+        super().__init__(health, power, name)
+    def alive(self):
+        return True
+    def print_status(self):
+        print("{} has {} power and is already dead... but still fighting?"
+        .format(self.name, self.power))
+
 def enemypicker():
     enemydict = {
-                0: Zombie,
-                1: Goblin
+                0: rest,
+                1: Zombie,
+                2: Goblin,
+                3: Skeleton,
+                4: Orc
                 }
     
-    enemypick = int(input("You have come across a fork in the road.\n \
-            One way leads to a zombie(0), the other leads to a goblin(1). \n \
-            Pick where to go (0-1): "))
+    enemypick = int(input("The scouting report indicates danger lies ahead...\n \
+            Option 0: Stay and rest. Option 1: Charge the zombie. Option 2: Hurl yourself at the goblin.\n \
+            Option 3: Moonwalk to the skeleton. Option 4: Sneak up on the Orc.\n \
+            Pick where to go (0-4): "))
     return enemydict[enemypick]()
     
 
@@ -70,7 +89,7 @@ def main():
     hero = Hero(name = "JJ")
     enemy = enemypicker()
 
-    while enemy.alive() and hero.alive():
+    while hero.alive():
         hero.print_status()
         enemy.print_status()
         print()

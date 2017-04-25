@@ -49,14 +49,23 @@ class Goblin(Character):
     def print_status(self):
         print("The goblin has {} health and {} power.".format("{0:.2f}".format(self.health), self.power))
 
+def enemypicker():
+    enemydict = {
+                0: Zombie,
+                1: Goblin
+                }
+    
+    enemypick = int(input("You have come across a fork in the road. One way leads to a zombie(0), the other leads to a goblin(1). Pick where to go (0-1): "))
+    return enemydict[enemypick]()
+    
+
 def main():
     hero = Hero(name = "JJ")
-    goblin = Goblin()
-    zombie = Zombie()
+    enemy = enemypicker()
 
-    while goblin.alive() and hero.alive():
+    while enemy.alive() and hero.alive():
         hero.print_status()
-        goblin.print_status()
+        enemy.print_status()
         print()
         print("What do you want to do?")
         print("1. fight")
@@ -67,17 +76,17 @@ def main():
         if inpt == "1":
             priority = randint(0,1)
             if priority == 0:
-                goblin.attack(hero)
+                enemy.attack(hero)
                 if hero.alive():
-                    hero.attack(goblin)
+                    hero.attack(enemy)
             else:
-                hero.attack(goblin)
-                if goblin.alive():
-                    goblin.attack(hero)
+                hero.attack(enemy)
+                if enemy.alive():
+                    enemy.attack(hero)
         elif inpt == "2":
-            if goblin.alive():
+            if enemy.alive():
             # Goblin attacks hero
-                goblin.attack(hero)
+                enemy.attack(hero)
             pass
         elif inpt == "3":
             print("Goodbye.")

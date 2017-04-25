@@ -89,8 +89,10 @@ def enemypicker():
                 }
 
     enemypick = int(input("The scouting report indicates danger lies ahead...\n \
-            Option 1: Charge the zombie. Option 2: Hurl yourself at the goblin.\n \
-            Option 3: Moonwalk to the skeleton. Option 4: Sneak up on the Orc.\n \
+            Option 1: Charge the zombie. \n\
+            Option 2: Hurl yourself at the goblin.\n \
+            Option 3: Moonwalk to the skeleton. \n\
+            Option 4: Sneak up on the Orc.\n \
             Pick where to go (1-4): "))
 
     return enemydict[enemypick]()
@@ -99,14 +101,16 @@ def main():
     hero = Hero(name = "JJ")
     enemy = enemypicker()
 
-    while enemy.alive hero.alive():
+    while enemy.alive() and hero.alive():
+
         hero.print_status()
         enemy.print_status()
         print()
         print("What do you want to do?")
         print("1. fight")
         print("2. do nothing")
-        print("3. flee")
+        print("3. drink a potion")
+        print("4. flee")
         print("> ", end=' ')
         inpt = input()
         if inpt == "1":
@@ -125,15 +129,19 @@ def main():
                 enemy.attack(hero)
             pass
         elif inpt == "3":
+            hero.rest()
+            enemy.attack(hero)
+            pass
+        elif inpt == "4":
             print("You run like a coward.")
-            switch = input("Do you want to rest? (y or n) ")
-            if switch in YES:
-                hero.rest()
-
-            enemy = enemypicker()
         else:
             print("Invalid inpt {}".format(inpt))
 
+    switch = input("Do you want to rest? (y or n) ")
+    if switch in YES:
+         hero.rest()
+
+    enemy = enemypicker()
 
 if __name__ == "__main__":
   main()

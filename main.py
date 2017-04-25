@@ -27,6 +27,8 @@ class Character():
 class Zombie(Character):
     def alive(self):
         return True
+    def print_status(self):
+        print("The {} has {} power and is already dead... but still fighting?".format(self.name, self.power))
 
 # class Hero():
 #     def __init__(self, health, power):

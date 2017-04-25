@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 
 """
-In this simple RPG game, the hero fights the goblin. He has the options to:
+In this simple RPG game, the hero fights evil monsters. He has the options to:
 1. fight
 2. do nothing - in which case the hero will be attacked anyway
 3. flee
 """
 class Character():
-    def __init__(self, name, health, power):
-        self.name = name
+    def __init__(self, health, power):
         self.health = health
         self.power = power
     def attack(self,victim):
         victim.health -= self.power
-        print("{} does {} damage to the {}.".format(self.name, self.power, victim.name))
+        print("{} does {} damage to the {}.".format(self.name.capitalize(), self.power, victim.name))
         if not victim.alive():
-            print("The {} is dead.".format(victim.name))
+            print("{} is dead.".format(victim.name.capitalize()))
     def alive(self):
         if self.health > 0:
             return True
@@ -25,23 +24,32 @@ class Character():
         print("The {} has {} health and {} power.".format(self.name, self.health, self.power))
 
 class Zombie(Character):
+    def __init__(self, health, power, name="zombie"):
+        self.name = name
+        super().__init__(health, power)
     def alive(self):
         return True
     def print_status(self):
         print("The {} has {} power and is already dead... but still fighting?".format(self.name, self.power))
 
 class Hero(Character):
+    def __init__(self, health, power, name="hero"):
+        self.name = name
+        super().__init__(health, power)
     def print_status(self):
         print("You have {} health and {} power.".format(self.health, self.power))
 
 class Goblin(Character):
+    def __init__(self, health, power, name="goblin"):
+        self.name = name
+        super().__init__(health, power)
     def print_status(self):
         print("The goblin has {} health and {} power.".format(self.health, self.power))
 
 def main():
-    hero = Hero("JJ", 10, 5)
-    goblin = Goblin("goblin", 6, 2)
-    zombie = Zombie("zombie", 1, 1)
+    hero = Hero(10, 5, "JJ")
+    goblin = Goblin(6, 2)
+    zombie = Zombie(1, 1)
 
     while goblin.alive() and hero.alive():
         hero.print_status()

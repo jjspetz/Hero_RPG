@@ -99,14 +99,15 @@ def main():
     hero = Hero(name = "JJ")
     enemy = enemypicker()
 
-    while hero.alive():
+    while enemy.alive() and hero.alive():
         hero.print_status()
         enemy.print_status()
         print()
         print("What do you want to do?")
         print("1. fight")
         print("2. do nothing")
-        print("3. flee")
+        print("3. drink a potion")
+        print("4. flee")
         print("> ", end=' ')
         inpt = input()
         if inpt == "1":
@@ -125,15 +126,19 @@ def main():
                 enemy.attack(hero)
             pass
         elif inpt == "3":
+            hero.rest()
+            enemy.attack(hero)
+            pass    
+        elif inpt == "4":
             print("You run like a coward.")
-            switch = input("Do you want to rest? (y or n) ")
-            if switch in YES:
-                hero.rest()
-
-            enemy = enemypicker()
         else:
             print("Invalid inpt {}".format(inpt))
+    
+    switch = input("Do you want to rest? (y or n) ")
+    if switch in YES:
+         hero.rest()
 
+    enemy = enemypicker()
 
 if __name__ == "__main__":
   main()

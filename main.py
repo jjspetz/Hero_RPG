@@ -60,7 +60,9 @@ def enemypicker():
                 1: Goblin
                 }
     
-    enemypick = int(input("You have come across a fork in the road. One way leads to a zombie(0), the other leads to a goblin(1). Pick where to go (0-1): "))
+    enemypick = int(input("You have come across a fork in the road.\n \
+            One way leads to a zombie(0), the other leads to a goblin(1). \n \
+            Pick where to go (0-1): "))
     return enemydict[enemypick]()
     
 

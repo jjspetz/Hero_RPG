@@ -207,7 +207,7 @@ class Shortsword(object):
 
 class Longsword(object):
     cost = 100
-    name = 'Short Sword'
+    name = 'Long Sword'
     def apply(self, hero):
         hero.power += 5
         print("{}'s power increased to {}.".format(hero.name, hero.power))

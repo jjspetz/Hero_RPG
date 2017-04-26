@@ -53,7 +53,7 @@ class Hero(Character):
         if not self.alive():
             return
         print("{} attacks {}".format(self.name, enemy.name))
-        if random.randint(0,100) <= 20:
+        if random.randint(0,100) < 20:
             enemy.receive_damage(2*self.power)
         else:
             enemy.receive_damage(self.power)
@@ -67,7 +67,7 @@ class Medic(Hero):
         self.coins = 20
 
     def recuperate(self):
-        if random.randint(0,100) <= 20:
+        if random.randint(0,100) < 20:
             print("{} recuperate 2 health.".format(self.name))
             self.health += 2
 
@@ -94,6 +94,13 @@ class Shadow(Hero):
                 print("{} is dead.".format(self.name))
         else:
             print("{} dodges enemy attack.".format(self.name))
+
+class Merchant(Hero)
+    def __init__(self):
+        self.name = 'merchant'
+        self.health = 5
+        self.power = 3
+        self.coins = 125
 
 
 class Goblin(Character):
@@ -172,11 +179,18 @@ class Tonic(object):
         character.health += 2
         print("{}'s health increased to {}.".format(character.name, character.health))
 
-class Sword(object):
-    cost = 10
-    name = 'sword'
+class Shortsword(object):
+    cost = 25
+    name = 'Short Sword'
     def apply(self, hero):
         hero.power += 2
+        print("{}'s power increased to {}.".format(hero.name, hero.power))
+
+class Longsword(object):
+    cost = 100
+    name = 'Short Sword'
+    def apply(self, hero):
+        hero.power += 5
         print("{}'s power increased to {}.".format(hero.name, hero.power))
 
 class Store(object):

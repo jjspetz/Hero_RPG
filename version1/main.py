@@ -34,11 +34,11 @@ class Character(object):
         print("{} has {} health and {} power.".format(self.name, self.health, self.power))
 
 class Hero(Character):
-    def __init__(self):
+    def __init__(self, health=10, power=5, coins=20):
         self.name = 'hero'
-        self.health = 10
-        self.power = 5
-        self.coins = 20
+        self.health = health
+        self.power = power
+        self.coins = coins
 
     def restore(self):
         self.health = 10
@@ -68,7 +68,7 @@ class Medic(Hero):
 
     def recuperate(self):
         if random.randint(0,100) <= 20:
-            print("You recuperate 2 health.")
+            print("{} recuperate 2 health.".format(self.name))
             self.health += 2
 
     def attack(self, enemy):
@@ -78,6 +78,23 @@ class Medic(Hero):
         enemy.receive_damage(self.power)
         self.recuperate()
         time.sleep(1.5)
+
+class Shadow(Hero):
+    def __init__(self, name = "shadow", health = 1, power = 5, coins = 20):
+        self.name = name
+        self.health = health
+        self.power = power
+        self.coins = coins
+
+    def receive_damage(self, points):
+        if random.randint(0,10) == 0:
+            self.health -= points
+            print("{} received {} damage.".format(self.name, points))
+            if self.health <= 0:
+                print("{} is dead.".format(self.name))
+        else:
+            print("{} dodges enemy attack.".format(self.name))
+    
 
 class Goblin(Character):
     def __init__(self):
@@ -175,7 +192,7 @@ class Store(object):
                 hero.buy(item)
 
 if __name__ == "__main__":
-    hero = Medic()
+    hero = Shadow()
     enemies = [Goblin(), Wizard()]
     battle_engine = Battle()
     shopping_engine = Store()

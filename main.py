@@ -44,7 +44,7 @@ class Hero(Character):
             self.health = self.health + 2
         else:
             self.health = self.maxhealth
-        print("Your health is {}".format(self.health))
+        print("Your health is {}".format("{0:.2f}".format(self.health)))
 
 class Goblin(Character):
     def __init__(self, health=randint(4,8), power=randint(1,5), name="goblin"):
@@ -83,15 +83,18 @@ def enemypicker():
                 }
 
     enemypick = int(input("The scouting report indicates danger lies ahead...\n \
-    Option 1: Charge the zombie. Option 2: Hurl yourself at the goblin.\n \
-    Option 3: Moonwalk to the skeleton. Option 4: Sneak up on the Orc.\n \
-    Pick where to go (1-4): "))
+            Option 1: Charge the zombie. \n\
+            Option 2: Hurl yourself at the goblin.\n \
+            Option 3: Moonwalk to the skeleton. \n\
+            Option 4: Sneak up on the Orc.\n \
+            Pick where to go (1-4): "))
 
     return enemydict[enemypick]()
 
 def attacksequence():
     enemy = enemypicker()
     while enemy.alive() and hero.alive():
+
         hero.print_status()
         enemy.print_status()
         print()
@@ -120,7 +123,7 @@ def attacksequence():
         elif inpt == "3":
             hero.rest()
             enemy.attack(hero)
-            pass    
+            pass
         elif inpt == "4":
             print("You run like a coward.")
             break

@@ -14,6 +14,7 @@ class Character(object):
         self.power = 5
         self.coins = 20
         self.armor = 0
+        self.evade = 0
 
     def alive(self):
         return self.health > 0
@@ -26,10 +27,13 @@ class Character(object):
         time.sleep(1.5)
 
     def receive_damage(self, points):
-        self.health -= (points - self.armor)
-        print("{} received {} damage.".format(self.name, points))
-        if self.health <= 0:
-            print("{} is dead.".format(self.name))
+        if random.randint(1,11) >= self.evade:
+            self.health -= (points - self.armor)
+            print("{} received {} damage.".format(self.name, points))
+            if self.health <= 0:
+                print("{} is dead.".format(self.name))
+        else:
+            print("You evaded the enemy's srtike!")
 
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, self.health, self.power))
@@ -40,7 +44,10 @@ class Enemy(Character):
         print("{} received {} damage.".format(self.name, points))
         if self.health <= 0:
             hero.coins += self.bounty
-            print("{} is dead. {} receives {} coins as bounty.".format(self.name, hero.name, self.bounty))
+            if self.bounty > 0:
+                print("{} is dead. {} receives {} coins as bounty.".format(self.name, hero.name, self.bounty))
+            else:
+                print("{} is dead.".format(self.name))
 
 class Hero(Character):
     def __init__(self, health=10, power=5, coins=20):
@@ -49,6 +56,7 @@ class Hero(Character):
         self.power = power
         self.coins = coins
         self.armor = 0
+        self.evade = 0
 
     def restore(self):
         self.health = 10
@@ -75,6 +83,8 @@ class Medic(Hero):
         self.health = 10
         self.power = 5
         self.coins = 20
+        self.armor = 0
+        self.evade = 0
 
     def recuperate(self):
         if random.randint(0,100) < 20:
@@ -95,15 +105,8 @@ class Shadow(Hero):
         self.health = health
         self.power = power
         self.coins = coins
-
-    def receive_damage(self, points):
-        if random.randint(0,10) == 0:
-            self.health -= points
-            print("{} received {} damage.".format(self.name, points))
-            if self.health <= 0:
-                print("{} is dead.".format(self.name))
-        else:
-            print("{} dodges enemy attack.".format(self.name))
+        self.armor = 0
+        self.evade = 9
 
 class Merchant(Hero):
     def __init__(self):
@@ -111,26 +114,17 @@ class Merchant(Hero):
         self.health = 5
         self.power = 3
         self.coins = 125
+        self.armor = 1
+        self.evade = 0
 
 class Tank(Hero):
     def __init__(self):
         self.name = 'tank'
         self.health = 20
-        self.power = 3
+        self.power = 1
         self.coins = 5
-
-    def receive_damage(self, points):
-        if random.randint(0,10) < 5:
-            print("{} defends against some damage.".format(self.name))
-            self.health -= (points-(1+self.armor))
-            print("{} received {} damage.".format(self.name, points-1))
-            if self.health <= 0:
-                print("{} is dead.".format(self.name))
-        else:
-            self.health -= (points - self.armor)
-            print("{} received {} damage.".format(self.name, points))
-            if self.health <= 0:
-                print("{} is dead.".format(self.name))
+        self.armor = 1
+        self.evade = 1
 
 class Goblin(Enemy):
     def __init__(self):
@@ -160,7 +154,7 @@ class Zombie(Enemy):
         self.name = "zombie"
         self.health = -500
         self.power = 1
-        self.bounty = 10000
+        self.bounty = 0
 
     def alive(self):
         return True
@@ -239,11 +233,19 @@ class Armor():
         hero.armor += 2
         print("{}'s armor increased by 2 to {}".format(hero.name, hero.armor))
 
+class Evade():
+    cost = 50
+    name = 'cloak of invisibility'
+    def apply(self, hero):
+        hero.evade += 1
+        print("{}'s evade increased by 1 to {}".format(hero.name, hero.evade))
+
+
 class Store(object):
     # If you define a variable in the scope of a class:
     # This is a class variable and you can access it like
     # Store.items => [Tonic, Sword]
-    items = [Armor, Tonic, SuperTonic, Shortsword, Longsword]
+    items = [Evade, Armor, Tonic, SuperTonic, Shortsword, Longsword]
     def do_shopping(self, hero):
         while True:
             print("=====================")
@@ -264,8 +266,11 @@ class Store(object):
                 hero.buy(item)
 
 if __name__ == "__main__":
-    hero = Tank()
-    enemies = [Zombie(), Goblin(), Wizard()]
+    heroes = [Tank, Medic, Merchant, Hero, Shadow]
+    print("Tank(0), Medic(1), Merchant(2), Hero(3), Shadow(4)")
+    reply = int(input("Which hero do you want to be? "))
+    hero = heroes[reply]()
+    enemies = [Goblin(), Wizard(), Zombie()]
     battle_engine = Battle()
     shopping_engine = Store()
 

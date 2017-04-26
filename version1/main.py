@@ -59,6 +59,26 @@ class Hero(Character):
             enemy.receive_damage(self.power)
         time.sleep(1.5)
 
+class Medic(Hero):
+    def __init__(self):
+        self.name = 'medic'
+        self.health = 10
+        self.power = 5
+        self.coins = 20
+
+    def recuperate(self):
+        if random.randint(0,100) <= 20:
+            print("You recuperate 2 health.")
+            self.health += 2
+
+    def attack(self, enemy):
+        if not self.alive():
+            return
+        print("{} attacks {}".format(self.name, enemy.name))
+        enemy.receive_damage(self.power)
+        self.recuperate()
+        time.sleep(1.5)
+
 class Goblin(Character):
     def __init__(self):
         self.name = 'goblin'
@@ -95,16 +115,18 @@ class Battle(object):
             print("2. do nothing")
             print("3. flee")
             print("> ", end=' ')
-            inpt = int(input())
-            if inpt == 1:
+            reply = int(input())
+            if reply == 1:
                 hero.attack(enemy)
-            elif inpt == 2:
+            elif reply == 2:
+                if hero.name == "medic":
+                    hero.recuperate()
                 pass
-            elif inpt == 3:
+            elif reply == 3:
                 print("Goodbye.")
                 exit(0)
             else:
-                print("Invalid input {}".format(input))
+                print("Invalid reply {}".format(input))
                 continue
             enemy.attack(hero)
         if hero.alive():
@@ -144,16 +166,16 @@ class Store(object):
                 item = Store.items[i]
                 print("{}. buy {} ({})".format(i + 1, item.name, item.cost))
             print("10. leave")
-            inpt = int(input("> "))
-            if inpt == 10:
+            reply = int(input("> "))
+            if reply == 10:
                 break
             else:
-                ItemToBuy = Store.items[inpt - 1]
+                ItemToBuy = Store.items[reply - 1]
                 item = ItemToBuy()
                 hero.buy(item)
 
 if __name__ == "__main__":
-    hero = Hero()
+    hero = Medic()
     enemies = [Goblin(), Wizard()]
     battle_engine = Battle()
     shopping_engine = Store()

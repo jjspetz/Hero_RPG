@@ -198,6 +198,13 @@ class Tonic(object):
         character.health += 2
         print("{}'s health increased to {}.".format(character.name, character.health))
 
+class SuperTonic(object):
+    cost = 5
+    name = 'super tonic'
+    def apply(self, character):
+        character.health += 10
+        print("{}'s health increased to {}.".format(character.name, character.health))
+
 class Shortsword(object):
     cost = 25
     name = 'Short Sword'

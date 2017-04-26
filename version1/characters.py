@@ -16,15 +16,18 @@ class Character(object):
 
     def attack(self, enemy):
         if not self.alive():
-            return
+            return 0
         print("{} attacks {}".format(self.name, enemy.name))
         enemy.receive_damage(self, self.power)
         time.sleep(1.5)
 
     def receive_damage(self, hero, points):
         if random.randint(1,11) >= self.evade:
-            self.health -= (points - self.armor)
-            print("{} received {} damage.".format(self.name, points))
+            if points > self.armor:
+                self.health -= (points - self.armor)
+                print("{} received {} damage.".format(self.name, (points-self.armor)))
+            else:
+                print("Your armor fully protects you!")
             if self.health <= 0:
                 print("{} is dead.".format(self.name))
         else:
@@ -37,7 +40,7 @@ class Enemy(Character):
     def receive_damage(self, hero, points):
         self.health -= points
         print("{} received {} damage.".format(self.name, points))
-        if self.health <= 0:
+        if self.health <= 0 or not self.alive():
             hero.coins += self.bounty
             if self.bounty > 0:
                 print("{} is dead. {} receives {} coins as bounty.".format(self.name, hero.name, self.bounty))
@@ -80,8 +83,7 @@ class Hero(Character):
         print(self.items.keys())
         picker = input("What item do you want to use? ")
         if picker in self.items:
-            #return self.items[picker](enemy)
-            ZombieKiller.use(enemy.name)
+            return self.items[picker](self, enemy)
         else:
             print("You don't own that item...")
 

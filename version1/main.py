@@ -33,20 +33,13 @@ class Character(object):
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, self.health, self.power))
 
-class Enemy(Character):
-    def receive_damage(self, points):
-        self.health -= points
-        print("{} received {} damage.".format(self.name, points))
-        if self.health <= 0:
-            hero.coins += self.bounty
-            print("{} is dead. {} receives {} coins as bounty.".format(self.name, hero.name, self.bounty))
-
 class Hero(Character):
     def __init__(self, health=10, power=5, coins=20):
         self.name = 'hero'
         self.health = health
         self.power = power
         self.coins = coins
+        self.armor = 0
 
     def restore(self):
         self.health = 10
@@ -103,7 +96,7 @@ class Shadow(Hero):
         else:
             print("{} dodges enemy attack.".format(self.name))
 
-class Merchant(Hero):
+class Merchant(Hero)
     def __init__(self):
         self.name = 'merchant'
         self.health = 5
@@ -120,29 +113,28 @@ class Tank(Hero):
     def receive_damage(self, points):
         if random.randint(0,10) < 5:
             print("{} defends against some damage.".format(self.name))
-            self.health -= points-1
+            self.health -= (points-(1+self.armor))
             print("{} received {} damage.".format(self.name, points-1))
             if self.health <= 0:
                 print("{} is dead.".format(self.name))
         else:
-            self.health -= points
+            self.health -= (points - self.armor)
             print("{} received {} damage.".format(self.name, points))
             if self.health <= 0:
                 print("{} is dead.".format(self.name))
 
-class Goblin(Enemy):
+class Goblin(Character):
     def __init__(self):
         self.name = 'goblin'
         self.health = 6
         self.power = 2
-        self.bounty = 2
 
-class Wizard(Enemy):
+class Wizard(Character):
     def __init__(self):
         self.name = 'wizard'
         self.health = 8
         self.power = 1
-        self.bounty = 6
+        self.bounty = 5
 
     def attack(self, enemy):
         swap_power = random.random() > 0.5
@@ -153,12 +145,11 @@ class Wizard(Enemy):
         if swap_power:
             self.power, enemy.power = enemy.power, self.power
 
-class Zombie(Enemy):
+class Zombie(Character):
     def __init__(self):
         self.name = "zombie"
         self.health = -500
         self.power = 1
-        self.bounty = 1000
 
     def alive(self):
         return True
@@ -210,7 +201,7 @@ class Tonic(object):
         print("{}'s health increased to {}.".format(character.name, character.health))
 
 class SuperTonic(object):
-    cost = 20
+    cost = 5
     name = 'super tonic'
     def apply(self, character):
         character.health += 10
@@ -218,23 +209,30 @@ class SuperTonic(object):
 
 class Shortsword(object):
     cost = 25
-    name = 'Short Sword'
+    name = 'shortsword'
     def apply(self, hero):
         hero.power += 2
         print("{}'s power increased to {}.".format(hero.name, hero.power))
 
 class Longsword(object):
     cost = 100
-    name = 'Long Sword'
+    name = 'longsword'
     def apply(self, hero):
         hero.power += 5
         print("{}'s power increased to {}.".format(hero.name, hero.power))
+
+class Armor():
+    cost = 50
+    name = "armor"
+    def apply(self, hero):
+        hero.armor += 2
+        print("{}'s armor increased by 2 to {}".format(hero.name, hero.armor))
 
 class Store(object):
     # If you define a variable in the scope of a class:
     # This is a class variable and you can access it like
     # Store.items => [Tonic, Sword]
-    items = [Tonic, SuperTonic, Shortsword, Longsword]
+    items = [Tonic, Shortsword]
     def do_shopping(self, hero):
         while True:
             print("=====================")
@@ -255,8 +253,8 @@ class Store(object):
                 hero.buy(item)
 
 if __name__ == "__main__":
-    hero = Merchant()
-    enemies = [Goblin(), Wizard(), Zombie()]
+    hero = Tank()
+    enemies = [Zombie(), Goblin(), Wizard()]
     battle_engine = Battle()
     shopping_engine = Store()
 

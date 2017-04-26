@@ -9,7 +9,7 @@ In this simple RPG game, the hero fights evil monsters. He has the options to:
 
 from random import randint, random
 
-YES = ('y', 'Y', 'yes', 'YES', 'Yes', 'OK', 'Okay', 'yeah', 'Yeah')
+YES = ('y', 'Y', 'yes', 'YES', 'Yes', 'OK', 'Okay', 'yeah', 'Yeah', 'yup', 'sure', 'ok', 'k', 'alright')
 
 class Character():
     def __init__(self, health, power, name):

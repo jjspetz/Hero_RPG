@@ -33,6 +33,14 @@ class Character(object):
     def print_status(self):
         print("{} has {} health and {} power.".format(self.name, self.health, self.power))
 
+class Enemy(Character):
+    def receive_damage(self, points):
+        self.health -= points
+        print("{} received {} damage.".format(self.name, points))
+        if self.health <= 0:
+            hero.coins += self.bounty
+            print("{} is dead. {} receives {} coins as bounty.".format(self.name, hero.name, self.bounty))
+
 class Hero(Character):
     def __init__(self, health=10, power=5, coins=20):
         self.name = 'hero'
@@ -95,7 +103,7 @@ class Shadow(Hero):
         else:
             print("{} dodges enemy attack.".format(self.name))
 
-class Merchant(Hero)
+class Merchant(Hero):
     def __init__(self):
         self.name = 'merchant'
         self.health = 5
@@ -122,17 +130,19 @@ class Tank(Hero):
             if self.health <= 0:
                 print("{} is dead.".format(self.name))
 
-class Goblin(Character):
+class Goblin(Enemy):
     def __init__(self):
         self.name = 'goblin'
         self.health = 6
         self.power = 2
+        self.bounty = 2
 
-class Wizard(Character):
+class Wizard(Enemy):
     def __init__(self):
         self.name = 'wizard'
         self.health = 8
         self.power = 1
+        self.bounty = 6
 
     def attack(self, enemy):
         swap_power = random.random() > 0.5
@@ -143,11 +153,12 @@ class Wizard(Character):
         if swap_power:
             self.power, enemy.power = enemy.power, self.power
 
-class Zombie(Character):
+class Zombie(Enemy):
     def __init__(self):
         self.name = "zombie"
         self.health = -500
         self.power = 1
+        self.bounty = 1000
 
     def alive(self):
         return True
@@ -199,7 +210,7 @@ class Tonic(object):
         print("{}'s health increased to {}.".format(character.name, character.health))
 
 class SuperTonic(object):
-    cost = 5
+    cost = 20
     name = 'super tonic'
     def apply(self, character):
         character.health += 10
@@ -223,7 +234,7 @@ class Store(object):
     # If you define a variable in the scope of a class:
     # This is a class variable and you can access it like
     # Store.items => [Tonic, Sword]
-    items = [Tonic, Sword]
+    items = [Tonic, SuperTonic, Shortsword, Longsword]
     def do_shopping(self, hero):
         while True:
             print("=====================")
@@ -244,8 +255,8 @@ class Store(object):
                 hero.buy(item)
 
 if __name__ == "__main__":
-    hero = Tank()
-    enemies = [Zombie(), Goblin(), Wizard()]
+    hero = Merchant()
+    enemies = [Goblin(), Wizard(), Zombie()]
     battle_engine = Battle()
     shopping_engine = Store()
 

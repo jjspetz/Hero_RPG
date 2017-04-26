@@ -52,6 +52,7 @@ class Hero(Character):
         self.coins = coins
         self.armor = 0
         self.evade = 0
+        self.items = {}
 
     def restore(self):
         self.health = 10
@@ -75,6 +76,15 @@ class Hero(Character):
             enemy.receive_damage(self, self.power)
         time.sleep(1.5)
 
+    def useitem(self, enemy):
+        print(self.items.keys())
+        picker = input("What item do you want to use? ")
+        if picker in self.items:
+            #return self.items[picker](enemy)
+            ZombieKiller.use(enemy.name)
+        else:
+            print("You don't own that item...")
+
 class Medic(Hero):
     def __init__(self):
         self.name = 'medic'
@@ -83,6 +93,7 @@ class Medic(Hero):
         self.coins = 20
         self.armor = 0
         self.evade = 0
+        self.items = {}
 
     def recuperate(self):
         if random.randint(0,100) < 20:
@@ -105,15 +116,17 @@ class Shadow(Hero):
         self.coins = coins
         self.armor = 0
         self.evade = 9
+        self.items = {}
 
 class Merchant(Hero):
     def __init__(self):
         self.name = 'merchant'
-        self.health = 5
-        self.power = 3
+        self.health = 40
+        self.power = 6
         self.coins = 125
         self.armor = 1
         self.evade = 0
+        self.items = {'zd':ZombieKiller.use}
 
 class Tank(Hero):
     def __init__(self):
@@ -123,6 +136,7 @@ class Tank(Hero):
         self.coins = 5
         self.armor = 1
         self.evade = 1
+        self.items = {}
 
 class Goblin(Enemy):
     def __init__(self):
@@ -154,7 +168,8 @@ class Zombie(Enemy):
         self.power = 1
         self.bounty = 0
 
-    def alive(self):
-        return True
+    def alive(self, x=True):
+        return x
+
     def print_status(self):
         print("{} has {} power and is already dead... but still fighting?".format(self.name, self.power))

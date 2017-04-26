@@ -1,25 +1,25 @@
-class Tonic(object):
+class Tonic():
     cost = 5
     name = 'tonic'
     def apply(self, character):
         character.health += 2
         print("{}'s health increased to {}.".format(character.name, character.health))
 
-class SuperTonic(object):
+class SuperTonic():
     cost = 5
     name = 'super tonic'
     def apply(self, character):
         character.health += 10
         print("{}'s health increased to {}.".format(character.name, character.health))
 
-class Shortsword(object):
+class Shortsword():
     cost = 25
     name = 'shortsword'
     def apply(self, hero):
         hero.power += 2
         print("{}'s power increased to {}.".format(hero.name, hero.power))
 
-class Longsword(object):
+class Longsword():
     cost = 100
     name = 'longsword'
     def apply(self, hero):
@@ -40,12 +40,22 @@ class Evade():
         hero.evade += 1
         print("{}'s evade increased by 1 to {}".format(hero.name, hero.evade))
 
+class ZombieKiller():
+    cost = 50
+    name = 'zombie decapitator'
+    def apply(self, hero):
+        hero.items[self.name] = self.use
+    def use(self, enemy):
+        if enemy == "zombie":
+            enemy.alive(False)
+        else:
+            print("You can only use this item on zombies, stupid.")
 
 class Store(object):
     # If you define a variable in the scope of a class:
     # This is a class variable and you can access it like
     # Store.items => [Tonic, Sword]
-    items = [Evade, Armor, Tonic, SuperTonic, Shortsword, Longsword]
+    items = [Evade, Armor, Tonic, SuperTonic, Shortsword, Longsword, ZombieKiller]
     def do_shopping(self, hero):
         while True:
             print("=====================")

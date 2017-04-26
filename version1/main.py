@@ -22,7 +22,8 @@ class Battle(object):
             print("What do you want to do?")
             print("1. fight {}".format(enemy.name))
             print("2. do nothing")
-            print("3. flee")
+            print("3. use item")
+            print("4. flee")
             print("> ", end=' ')
             reply = int(input())
             if reply == 1:
@@ -32,6 +33,8 @@ class Battle(object):
                     hero.recuperate()
                 pass
             elif reply == 3:
+                hero.useitem(enemy)
+            elif reply == 4:    
                 print("Goodbye.")
                 exit(0)
             else:
@@ -55,7 +58,7 @@ def pickhero():
 if __name__ == "__main__":
     hero = pickhero()
 
-    enemies = [Goblin(), Wizard(), Zombie()]
+    enemies = [Zombie(), Goblin(), Wizard(), Zombie()]
     battle_engine = Battle()
     shopping_engine = Store()
 

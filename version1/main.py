@@ -94,7 +94,7 @@ class Shadow(Hero):
                 print("{} is dead.".format(self.name))
         else:
             print("{} dodges enemy attack.".format(self.name))
-    
+
 
 class Goblin(Character):
     def __init__(self):
@@ -116,6 +116,18 @@ class Wizard(Character):
         super(Wizard, self).attack(enemy)
         if swap_power:
             self.power, enemy.power = enemy.power, self.power
+
+class Zombie(Character):
+    def __init__(self):
+        self.name = "zombie"
+        self.health = -500
+        self.power = 1
+
+    def alive(self):
+        return True
+    def print_status(self):
+        print("{} has {} power and is already dead... but still fighting?".format(self.name, self.power))
+
 
 class Battle(object):
     def do_battle(self, hero, enemy):
@@ -193,7 +205,7 @@ class Store(object):
 
 if __name__ == "__main__":
     hero = Shadow()
-    enemies = [Goblin(), Wizard()]
+    enemies = [Zombie(), Goblin(), Wizard()]
     battle_engine = Battle()
     shopping_engine = Store()
 

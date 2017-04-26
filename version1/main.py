@@ -95,6 +95,25 @@ class Shadow(Hero):
         else:
             print("{} dodges enemy attack.".format(self.name))
 
+class Tank(Hero):
+    def __init__(self):
+        self.name = 'tank'
+        self.health = 20
+        self.power = 3
+        self.coins = 5
+
+    def receive_damage(self, points):
+        if random.randint(0,10) < 5:
+            print("{} defends against some damage.".format(self.name))
+            self.health -= points-1  
+            print("{} received {} damage.".format(self.name, points-1))
+            if self.health <= 0:
+                print("{} is dead.".format(self.name))
+        else:
+            self.health -= points
+            print("{} received {} damage.".format(self.name, points))
+            if self.health <= 0:
+                print("{} is dead.".format(self.name))
 
 class Goblin(Character):
     def __init__(self):
@@ -204,7 +223,7 @@ class Store(object):
                 hero.buy(item)
 
 if __name__ == "__main__":
-    hero = Shadow()
+    hero = Tank()
     enemies = [Zombie(), Goblin(), Wizard()]
     battle_engine = Battle()
     shopping_engine = Store()

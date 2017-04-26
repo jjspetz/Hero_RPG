@@ -49,6 +49,16 @@ class Hero(Character):
         self.coins -= item.cost
         item.apply(hero)
 
+    def attack(self, enemy):
+        if not self.alive():
+            return
+        print("{} attacks {}".format(self.name, enemy.name))
+        if random.randint(0,100) <= 20:
+            enemy.receive_damage(2*self.power)
+        else:
+            enemy.receive_damage(self.power)
+        time.sleep(1.5)
+
 class Goblin(Character):
     def __init__(self):
         self.name = 'goblin'
@@ -85,12 +95,12 @@ class Battle(object):
             print("2. do nothing")
             print("3. flee")
             print("> ", end=' ')
-            input = int(input())
-            if input == 1:
+            inpt = int(input())
+            if inpt == 1:
                 hero.attack(enemy)
-            elif input == 2:
+            elif inpt == 2:
                 pass
-            elif input == 3:
+            elif inpt == 3:
                 print("Goodbye.")
                 exit(0)
             else:
@@ -134,11 +144,11 @@ class Store(object):
                 item = Store.items[i]
                 print("{}. buy {} ({})".format(i + 1, item.name, item.cost))
             print("10. leave")
-            input = int(input("> "))
-            if input == 10:
+            inpt = int(input("> "))
+            if inpt == 10:
                 break
             else:
-                ItemToBuy = Store.items[input - 1]
+                ItemToBuy = Store.items[inpt - 1]
                 item = ItemToBuy()
                 hero.buy(item)
 

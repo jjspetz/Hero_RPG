@@ -34,7 +34,7 @@ class Battle(object):
                 pass
             elif reply == 3:
                 hero.useitem(enemy)
-            elif reply == 4:    
+            elif reply == 4:
                 print("Goodbye.")
                 exit(0)
             else:
@@ -58,7 +58,7 @@ def pickhero():
 if __name__ == "__main__":
     hero = pickhero()
 
-    enemies = [Zombie(), Goblin(), Wizard(), Zombie()]
+    enemies = [Goblin(), Wizard(), Zombie()]
     battle_engine = Battle()
     shopping_engine = Store()
 

@@ -47,7 +47,8 @@ class ZombieKiller():
         hero.items[self.name] = self.use
     def use(self, enemy):
         if enemy.name == "zombie":
-            enemy.alive(False)
+            enemy.head = False
+
         else:
             print("You can only use this item on zombies, stupid.")
 

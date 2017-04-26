@@ -13,6 +13,7 @@ class Character(object):
         self.health = 10
         self.power = 5
         self.coins = 20
+        self.armor = 0
 
     def alive(self):
         return self.health > 0
